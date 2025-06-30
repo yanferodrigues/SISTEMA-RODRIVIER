@@ -2851,7 +2851,16 @@ def emitir():
         celula_e32.font = fonte_vermelha
         celula_f26.font = fonte_titulo
         
-        planilha.save(f'CARTAS-FRETE/CARTA-FRETE {numero_recibo} ({container_nome_motorista.get()}).xlsx')
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        caminho_cartas = os.path.join(base_dir, 'CARTAS-FRETE')
+        os.makedirs(caminho_cartas, exist_ok=True)
+
+        # Caminho final do arquivo
+        nome_arquivo = f"CARTA-FRETE {numero_recibo} ({container_nome_motorista.get()}).xlsx"
+        caminho_final = os.path.join(caminho_cartas, nome_arquivo)
+
+        # Salva no local certo
+        planilha.save(caminho_final)
         
         texto_confirmar_emissao.configure(text='NOTA EMITIDA COM SUCESSO', text_color='green')
         texto_confirmar_emissao.place(x=870, y= 900)
@@ -2859,7 +2868,7 @@ def emitir():
         app_2.after(3000, texto_confirmar_emissao.place_forget)
 
         
-    except TypeError as erro:
+    except Exception as erro:
         texto_confirmar_emissao.configure(text=f'{erro}', text_color='red')
         
     

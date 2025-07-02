@@ -2721,6 +2721,8 @@ def emitir():
     adiantamento = float(adiantamento) 
     total = frete * peso
     preco_total = formatar_moeda(total)
+    descontando_adiantamento = total-adiantamento
+    preco_adiantamento_descontado = formatar_moeda(descontando_adiantamento)
     try:
         planilha = load_workbook(caminho_recurso('arquivos/RECIBO DE FRETE.xlsx'))
 
@@ -2741,7 +2743,6 @@ def emitir():
         sheet.add_image(img_logo, 'A3')
         sheet.add_image(img_assinatura, 'B33')
         
-        celula_e6 = sheet['E6'] 
         celula_a11 = sheet['A11'] 
         celula_b11 = sheet['B11'] 
         celula_d11 = sheet['D11'] 
@@ -2762,11 +2763,10 @@ def emitir():
         celula_b27 = sheet['B27'] 
         celula_c27 = sheet['C27']
         celula_d27 = sheet['D27']
-        celula_e27 = sheet['E27']
-        celula_f27 = sheet['F27'] 
-        celula_f29 = sheet['F29'] 
-        celula_f30 = sheet['F30'] 
-        celula_e32 = sheet['E32']
+        celula_a30 = sheet['A30']
+        celula_b30 = sheet['B30'] 
+        celula_d29 = sheet['D29'] 
+        celula_d30 = sheet['D30'] 
         celula_a34 = sheet['B34']
         celula_b4 = sheet['B4']
         celula_b5 = sheet['B5']
@@ -2785,15 +2785,15 @@ def emitir():
         celula_d13 = sheet['D13']
         celula_d17 = sheet['D17']
         celula_d26 = sheet['D26']
-        celula_e6 = sheet['E6']
-        celula_e26 = sheet['E26']
-        celula_e29 = sheet['E29']
-        celula_e30 = sheet['E30']
-        celula_e32 = sheet['E32']
-        celula_f26 = sheet['F30']
+        celula_d6 = sheet['D6']
+        celula_a29 = sheet['A29']
+        celula_c29 = sheet['C29']
+        celula_c30 = sheet['C30']
+        celula_c32 = sheet['C32']
+        celula_b29 = sheet['A29']
         
         
-        sheet['E6'] = f'RECIBO Nº {numero_recibo}'
+        sheet['D6'] = f'RECIBO Nº {numero_recibo}'
         sheet['A11'] = container_nome_cliente.get()
         sheet['B11'] = container_cnpj_cliente.get()
         sheet['D11'] = container_insc_estadual.get()
@@ -2814,14 +2814,14 @@ def emitir():
         sheet['B27'] = container_coleta.get().upper()
         sheet['C27'] = container_nf.get()
         sheet['D27'] = container_peso_veiculo.get()
-        sheet['E27'] = container_frete.get()
-        sheet['F27'] = preco_total
-        sheet['F29'] = preco_total
-        sheet['F30'] = container_adiantamento.get()
-        sheet['E32'] = (total - adiantamento)
+        sheet['A30'] = container_frete.get()
+        sheet['B30'] = preco_total
+        sheet['C30'] = preco_total
+        sheet['D30'] = container_adiantamento.get()
+        sheet['C32'] = (preco_adiantamento_descontado)
         sheet['A34'] = container_nome_motorista.get()
         
-        celula_e6.font = fonte_vermelha
+        celula_d6.font = fonte_vermelha
         celula_a11.font = fonte_corpo
         celula_b11.font = fonte_corpo
         celula_d11.font = fonte_corpo
@@ -2842,11 +2842,10 @@ def emitir():
         celula_b27.font = fonte_corpo
         celula_c27.font = fonte_corpo
         celula_d27.font = fonte_corpo
-        celula_e27.font = fonte_corpo
-        celula_f27.font = fonte_corpo
-        celula_f29.font = fonte_corpo
-        celula_f30.font = fonte_corpo
-        celula_e32.font = fonte_vermelha
+        celula_a30.font = fonte_corpo
+        celula_b30.font = fonte_corpo
+        celula_c30.font = fonte_corpo
+        celula_d30.font = fonte_corpo
         celula_a34.font = fonte_corpo
         celula_b4.font = fonte_corpo
         celula_b5.font = fonte_corpo
@@ -2865,11 +2864,12 @@ def emitir():
         celula_d13.font = fonte_titulo
         celula_d17.font = fonte_titulo
         celula_d26.font = fonte_titulo
-        celula_e26.font = fonte_titulo
-        celula_e29.font = fonte_corpo
-        celula_e30.font = fonte_corpo
-        celula_e32.font = fonte_vermelha
-        celula_f26.font = fonte_titulo
+        celula_a29.font = fonte_titulo
+        celula_c29.font = fonte_titulo
+        celula_d29.font = fonte_titulo
+        celula_c32.font = fonte_vermelha
+        celula_b29.font = fonte_titulo
+        celula_a34.font = fonte_corpo
         
 
         # Caminho final do arquivo
@@ -2965,3 +2965,4 @@ app.mainloop()
         
 
 
+# pyinstaller --onefile --noconsole --icon=imagens/icone.ico --add-data "arquivos/RECIBO DE FRETE.xlsx;arquivos" --add-data "imagens;imagens" arquivos/app.py 
